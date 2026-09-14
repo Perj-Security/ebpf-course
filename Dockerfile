@@ -1,10 +1,17 @@
-FROM ubuntu:latest
+FROM ubuntu:26.04
 
-RUN apt-get update
-RUN apt-get install -y bpftrace inotify-tools auditd less vim
-RUN apt-get install -y tcpdump
-RUN apt-get install -y linux-tools-common linux-tools-generic
-RUN rm -rf /var/lib/apt/lists/*
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        auditd \
+        bpftrace \
+        inotify-tools \
+        less \
+        linux-tools-common \
+        linux-tools-generic \
+        nano \
+        tcpdump \
+        nftables \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy auditd configurations
 COPY filter.conf /etc/audit/plugins.d/
